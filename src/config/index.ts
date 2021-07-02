@@ -5,14 +5,19 @@ config()
 const {
   POSTGRES_HOST: host = '',
   POSTGRES_DB: database = '',
-  POSTGRES_USER:user = '',
-  POSTGRES_PASSWORD:password = '',
-  POSTGRES_TEST_DB:database_test = '',
-  NODE_ENV:env = 'dev',
-  BCRYPT_PASSWORD:pepper = '',
-  SALT_ROUNDS:salt = '',
-  TOKEN_SECRET:token = ''
+  POSTGRES_USER: user = '',
+  POSTGRES_PASSWORD: password = '',
+  POSTGRES_TEST_DB: database_test = '',
+  NODE_ENV: env = 'dev',
+  BCRYPT_PASSWORD: pepper = '',
+  SALT_ROUNDS: salt = '',
+  TOKEN_SECRET: jwt = '',
+  PORT: port = 3000,
 } = process.env
+
+const serverLog = (): void => {
+  console.log(`Server listening on port ${port}`)
+}
 
 export default {
   host,
@@ -21,9 +26,14 @@ export default {
   password,
   database_test,
   env,
-  hashing:{
-    salt,
-    pepper
+  secrets: {
+    jwt,
+    jwtExp: '100d',
   },
-  token
+  port,
+  hashing: {
+    salt,
+    pepper,
+  },
+  serverLog,
 }
