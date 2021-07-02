@@ -1,17 +1,19 @@
-import express, { Request, Response } from 'express'
-import bodyParser from 'body-parser'
+import express from 'express'
+import { api, home, notFound, login, register, profile } from './api/index'
+import config from './config/index'
+import morgan from 'morgan'
 
 const app: express.Application = express()
-const address = '0.0.0.0:3000'
 
-app.use(bodyParser.json())
+app.use(morgan('dev'))
+app.use(express.json())
 
-app.get('/', function (req: Request, res: Response) {
-	res.send('Home')
-})
-
-app.listen(3000, function () {
-  console.log(`starting app on: ${address}`)
-})
+app.get('/', home)
+app.use('/login', login)
+app.use('/signup', register)
+app.use('/profile', profile)
+app.use('/api', api)
+app.use('*', notFound)
+app.listen(config.port, config.serverLog)
 
 export default app
